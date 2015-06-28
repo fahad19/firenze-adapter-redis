@@ -1,3 +1,5 @@
+var RedisAdapter = require('../');
+
 module.exports = {
-  adapter: require('../index')
+  adapter: RedisAdapter
 };

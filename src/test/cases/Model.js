@@ -24,6 +24,33 @@ describe('Model', function () {
     });
   });
 
+  it('should have an instance', function () {
+    var post = new this.Post();
+    post.should.have.property('alias').which.is.exactly('Post');
+  });
+
+  it('should have a collection', function () {
+    var post = new this.Post();
+    post.should.have.property('collection');
+    console.log('post', post);
+
+    var posts = post.collection();
+    // console.log('posts', posts);
+    // posts.should.have.property('modelClass');
+  });
+
+  // it('should fetch itself', function (done) {
+  //   var post = new this.Post({
+  //     key: 'hello'
+  //   });
+  //   post.fetch().then(function (model) {
+  //     model.get('value').should.be.exactly('Hello World');
+  //     done();
+  //   }).catch(function (error) {
+  //     throw error;
+  //   });
+  // });
+
   after(function (done) {
     this.db.close(done);
   });

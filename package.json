@@ -41,10 +41,10 @@
     "redis": "^0.12.1"
   },
   "peerDependencies": {
-    "firenze": "~0.1.2"
+    "firenze": "~0.1.4"
   },
   "devDependencies": {
-    "firenze": "~0.1.2",
+    "firenze": "~0.1.4",
     "babel": "^5.1.10",
     "babel-eslint": "^3.0.1",
     "coveralls": "^2.11.2",

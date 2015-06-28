@@ -25,7 +25,7 @@ let Adapter = f.Adapter;
 // ```
 //
 export default class Redis extends Adapter {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
     this.options = _.merge({
       keyField: 'key',
@@ -58,6 +58,7 @@ export default class Redis extends Adapter {
   populateTable(model, rows) {
     return new P((resolve, reject) => {
       return async.eachSeries(rows, (row, cb) => {
+        console.log('row', row);
         let key = row[this.options.keyField];
         let value = row[this.options.valueField];
 
@@ -80,7 +81,7 @@ export default class Redis extends Adapter {
 
   query(collection, options = {}) {
     let model = collection.model();
-    return _.merge(options, {
+    return _.merge({}, {
       primaryKey: this.options.keyField,
       alias: model.alias,
       valueField: this.options.valueField
