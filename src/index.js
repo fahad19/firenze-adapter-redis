@@ -58,7 +58,6 @@ export default class Redis extends Adapter {
   populateTable(model, rows) {
     return new P((resolve, reject) => {
       return async.eachSeries(rows, (row, cb) => {
-        console.log('row', row);
         let key = row[this.options.keyField];
         let value = row[this.options.valueField];
 

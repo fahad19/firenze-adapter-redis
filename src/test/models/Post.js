@@ -9,11 +9,6 @@ module.exports = function (db) {
 
     displayField: 'value',
 
-    schema: {
-      key: {},
-      value: {}
-    },
-
     collectionClass: function () {
       return require('../collections/Posts')(db);
     }

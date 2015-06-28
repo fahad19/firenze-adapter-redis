@@ -32,11 +32,9 @@ describe('Model', function () {
   it('should have a collection', function () {
     var post = new this.Post();
     post.should.have.property('collection');
-    console.log('post', post);
 
     var posts = post.collection();
-    // console.log('posts', posts);
-    // posts.should.have.property('modelClass');
+    posts.should.have.property('modelClass');
   });
 
   // it('should fetch itself', function (done) {
