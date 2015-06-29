@@ -140,7 +140,12 @@ export default class Redis extends Adapter {
             return reject(err);
           }
 
-          return resolve(reply);
+          return resolve([
+            {
+              [q.primaryKey]: key,
+              [q.valueField]: reply
+            }
+          ]);
         });
     });
   }

@@ -49,6 +49,17 @@ describe('Model', function () {
     });
   });
 
+  it('should update existing record', function (done) {
+    var post = new this.Post({key: 'hello'});
+    post.fetch().then(function (model) {
+      model.set('value', 'Hello Universe');
+      model.save().then(function (m) {
+        m.get('value').should.eql('Hello Universe');
+        done();
+      });
+    });
+  });
+
   after(function (done) {
     this.db.close(done);
   });
