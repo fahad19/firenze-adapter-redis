@@ -37,17 +37,17 @@ describe('Model', function () {
     posts.should.have.property('modelClass');
   });
 
-  // it('should fetch itself', function (done) {
-  //   var post = new this.Post({
-  //     key: 'hello'
-  //   });
-  //   post.fetch().then(function (model) {
-  //     model.get('value').should.be.exactly('Hello World');
-  //     done();
-  //   }).catch(function (error) {
-  //     throw error;
-  //   });
-  // });
+  it('should fetch itself', function (done) {
+    var post = new this.Post({
+      key: 'hello'
+    });
+    post.fetch().then(function (model) {
+      model.get('value').should.be.exactly('Hello World');
+      done();
+    }).catch(function (error) {
+      throw error;
+    });
+  });
 
   after(function (done) {
     this.db.close(done);

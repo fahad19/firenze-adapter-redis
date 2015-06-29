@@ -80,7 +80,7 @@ export default class Redis extends Adapter {
 
   query(collection, options = {}) {
     let model = collection.model();
-    return _.merge({}, {
+    return _.merge(options, {
       primaryKey: this.options.keyField,
       alias: model.alias,
       valueField: this.options.valueField
@@ -113,12 +113,17 @@ export default class Redis extends Adapter {
 
       return this
         .getConnection()
-        .get(key, function (err, reply) {
+        .get(key, (err, reply) => {
           if (err) {
             return reject(err);
           }
 
-          return resolve(reply);
+          return resolve([
+            {
+              [q.primaryKey]: key,
+              [q.valueField]: reply
+            }
+          ]);
         });
     });
   }
