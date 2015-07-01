@@ -19,8 +19,6 @@ let Adapter = f.Adapter;
 //   adapter: RedisAdapter,
 //
 //   // optional config
-//   keyField: 'key',
-//   valueField: 'value',
 //   port: 6379,
 //   host: '127.0.0.1'
 //   options: {} // passed to `redis.createClient(port, host, options)`
@@ -31,8 +29,6 @@ export default class Redis extends Adapter {
   constructor(options = {}) {
     super(options);
     this.options = _.merge({
-      keyField: 'key',
-      valueField: 'value',
       port: 6379,
       host: '127.0.0.1',
       options: {}
@@ -68,8 +64,8 @@ export default class Redis extends Adapter {
   populateTable(model, rows) {
     return new P((resolve, reject) => {
       return async.eachSeries(rows, (row, cb) => {
-        let key = row[this.options.keyField];
-        let value = row[this.options.valueField];
+        let key = model.primaryKey;
+        let value = row[model.displayField];
 
         this.getConnection().set(key, value, (err) => {
           if (err) {
@@ -91,9 +87,9 @@ export default class Redis extends Adapter {
   query(collection, options = {}) {
     let model = collection.model();
     return _.merge(options, {
-      primaryKey: this.options.keyField,
+      primaryKey: model.primaryKey,
       alias: model.alias,
-      valueField: this.options.valueField
+      valueField: model.displayField
     });
   }
 

@@ -39,8 +39,6 @@ var db = new Database({
   adapter: RedisAdapter,
 
   // optional config
-  keyField: 'key',
-  valueField: 'value',
   port: 6379,
   host: '127.0.0.1'
   options: {} // passed to `redis.createClient(port, host, options)`
