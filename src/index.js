@@ -229,7 +229,8 @@ export default class Redis extends Adapter {
             return reject(err);
           }
 
-          return resolve(reply);
+          // @TODO: needs updating when deleteAll() is implemented
+          return resolve(1);
         });
     });
   }
