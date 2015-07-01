@@ -4,12 +4,10 @@
 
 Redis database adapter for [firenze.js](https://github.com/fahad19/firenze)
 
-Install it with [npm](https://npmjs.com) or [Bower](http://bower.io):
+Install it with [npm](https://npmjs.com):
 
 ```
 $ npm install --save firenze-adapter-redis
-
-$ bower install --save firenze-adapter-redis
 ```
 
 The adapter currently supports only setting/getting/deleting a particular key at this moment.
