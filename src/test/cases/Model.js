@@ -49,6 +49,19 @@ describe('Model', function () {
     });
   });
 
+  it('should create a new record', function (done) {
+    var post = new this.Post({
+      key: 'new',
+      value: 'New Post'
+    });
+    post.save().then(function (model) {
+      model.get('value').should.eql('New Post');
+      done();
+    }).catch(function (error) {
+      throw error;
+    });
+  });
+
   it('should update existing record', function (done) {
     var post = new this.Post({key: 'hello'});
     post.fetch().then(function (model) {
@@ -57,6 +70,14 @@ describe('Model', function () {
         m.get('value').should.eql('Hello Universe');
         done();
       });
+    });
+  });
+
+  it('should delete a record', function (done) {
+    var post = new this.Post({key: 'about'});
+    post.delete().then(function (affectedRows) {
+      affectedRows.should.eql(1);
+      done();
     });
   });
 
