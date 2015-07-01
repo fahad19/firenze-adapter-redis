@@ -224,7 +224,7 @@ export default class Redis extends Adapter {
 
       return this
         .getConnection()
-        .del(key, function (err, reply) {
+        .del(key, function (err) {
           if (err) {
             return reject(err);
           }

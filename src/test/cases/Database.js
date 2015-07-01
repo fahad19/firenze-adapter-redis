@@ -15,6 +15,7 @@ describe('Database', function () {
     var Posts = require('../collections/Posts')(db);
 
     var posts = new Posts();
+    posts.should.have.property('model');
     db.close(done);
   });
 
