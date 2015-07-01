@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>firenze-adapter-redis by fahad19</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>firenze-adapter-redis</h1>
+        <p>Redis adapter for firenze.js ORM</p>
+
+        <p class="view"><a href="https://github.com/fahad19/firenze-adapter-redis">View the Project on GitHub <small>fahad19/firenze-adapter-redis</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/fahad19/firenze-adapter-redis/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/fahad19/firenze-adapter-redis/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/fahad19/firenze-adapter-redis">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="firenze-adapter-redis" class="anchor" href="#firenze-adapter-redis" aria-hidden="true"><span class="octicon octicon-link"></span></a>firenze-adapter-redis</h1>
+
+<p><a href="http://travis-ci.org/fahad19/firenze-adapter-redis"><img src="https://secure.travis-ci.org/fahad19/firenze-adapter-redis.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/fahad19/firenze-adapter-redis?branch=master"><img src="https://coveralls.io/repos/fahad19/firenze-adapter-redis/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://www.npmjs.com/package/firenze-adapter-redis"><img src="https://img.shields.io/npm/v/firenze-adapter-redis.svg" alt="npm"></a> <a href="https://gitter.im/fahad19/firenze"><img src="https://img.shields.io/badge/gitter-join_chat_%E2%86%92-1dce73.svg" alt="Join the chat at https://gitter.im/fahad19/firenze"></a></p>
+
+<p>Redis database adapter for <a href="https://github.com/fahad19/firenze">firenze.js</a></p>
+
+<p>Install it with <a href="https://npmjs.com">npm</a>:</p>
+
+<pre><code>$ npm install --save firenze-adapter-redis
+</code></pre>
+
+<p>The adapter currently supports only setting/getting/deleting a particular key at this moment.</p>
+
+
+
+
+
+<h1>
+<a id="contents" class="anchor" href="#contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contents</h1>
+
+<ul>
+<li><a href="#usage">Usage</a></li>
+<li>
+<a href="#operations">Operations</a>
+
+<ul>
+<li><a href="#creating">Creating</a></li>
+<li><a href="#reading">Reading</a></li>
+<li><a href="#updating">Updating</a></li>
+<li><a href="#deleting">Deleting</a></li>
+</ul>
+</li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+
+
+
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> Database <span class="pl-k">=</span> f.Database;
+<span class="pl-k">var</span> RedisAdapter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze-adapter-redis<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Database</span>({
+  adapter<span class="pl-k">:</span> RedisAdapter,
+
+  <span class="pl-c">// optional config</span>
+  port<span class="pl-k">:</span> <span class="pl-c1">6379</span>,
+  host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1<span class="pl-pds">'</span></span>
+  options<span class="pl-k">:</span> {} <span class="pl-c">// passed to `redis.createClient(port, host, options)`</span>
+});</pre></div>
+
+<h2>
+<a id="operations" class="anchor" href="#operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Operations</h2>
+
+<p>Examples below assume you have an instance of a Post model already:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Post <span class="pl-k">=</span> db.createModelClass({
+  primaryKey<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>key<span class="pl-pds">'</span></span>,
+  displayField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<h3>
+<a id="creating" class="anchor" href="#creating" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  key<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>myUniqueKey<span class="pl-pds">'</span></span>,
+  value<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>some value here...<span class="pl-pds">'</span></span>
+});
+
+post.save().then(<span class="pl-k">function</span> (<span class="pl-smi">model</span>) {
+  <span class="pl-k">var</span> value <span class="pl-k">=</span> model.get(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>); <span class="pl-c">// some value here...</span>
+});</pre></div>
+
+<h3>
+<a id="reading" class="anchor" href="#reading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  key<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>myUniqueKey<span class="pl-pds">'</span></span>
+});
+
+post.fetch().then(<span class="pl-k">function</span> (<span class="pl-smi">model</span>) {
+  <span class="pl-k">var</span> value <span class="pl-k">=</span> model.get(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>);
+});</pre></div>
+
+<h3>
+<a id="updating" class="anchor" href="#updating" aria-hidden="true"><span class="octicon octicon-link"></span></a>Updating</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  key<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>myUniqueKey<span class="pl-pds">'</span></span>
+});
+
+post.set(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>some new value...<span class="pl-pds">'</span></span>);
+
+post.save().then(<span class="pl-k">function</span> (<span class="pl-smi">model</span>) {
+  <span class="pl-k">var</span> value <span class="pl-k">=</span> model.get(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>);
+});</pre></div>
+
+<h3>
+<a id="deleting" class="anchor" href="#deleting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deleting</h3>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  key<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>myUniqueKey<span class="pl-pds">'</span></span>
+});
+
+post.delete().then(<span class="pl-k">function</span> () {
+  <span class="pl-c">// delete successful</span>
+});</pre></div>
+
+
+
+<h1>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h1>
+
+<p>Tests are written with <a href="http://mochajs.org/">mocha</a>, and can be run via npm:</p>
+
+<pre><code>$ npm test
+</code></pre>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>MIT © <a href="http://fahad19.com">Fahad Ibnay Heylaal</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/fahad19">fahad19</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-47493443-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
