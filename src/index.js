@@ -20,7 +20,10 @@ let Adapter = f.Adapter;
 //
 //   // optional config
 //   keyField: 'key',
-//   valueField: 'value'
+//   valueField: 'value',
+//   port: 6479,
+//   host: '127.0.0.1'
+//   options: {} // passed to `redis.createClient(port, host, options)`
 // });
 // ```
 //
@@ -29,10 +32,16 @@ export default class Redis extends Adapter {
     super(options);
     this.options = _.merge({
       keyField: 'key',
-      valueField: 'value'
+      valueField: 'value',
+      port: 6379,
+      host: '127.0.0.1',
+      options: {}
     }, options);
 
-    this.client = redis.createClient();
+    this.client = redis.createClient(
+      options.port,
+      options.host,
+      options.options);
   }
 
   getConnection() {
@@ -103,10 +112,46 @@ export default class Redis extends Adapter {
     return value;
   }
 
+// ## Operations
+//
+// Examples below assume you have an instance of a Post model already:
+//
+// ```js
+// var Post = db.createModelClass({
+//   primaryKey: 'key',
+//   displayField: 'value'
+// });
+// ```
+//
+// ### Creating
+//
+// ```js
+// var post = new Post({
+//   key: 'myUniqueKey',
+//   value: 'some value here...'
+// });
+//
+// post.save().then(function (model) {
+//   var value = model.get('value'); // some value here...
+// });
+// ```
+//
   create(q, obj) {
     return this.update(q, obj);
   }
 
+// ### Reading
+//
+// ```js
+// var post = new Post({
+//   key: 'myUniqueKey'
+// });
+//
+// post.fetch().then(function (model) {
+//   var value = model.get('value');
+// });
+// ```
+//
   read(q) {
     return new P((resolve, reject) => {
       let key = this.getValueFromConditions(q, q.primaryKey);
@@ -128,6 +173,20 @@ export default class Redis extends Adapter {
     });
   }
 
+// ### Updating
+//
+// ```js
+// var post = new Post({
+//   key: 'myUniqueKey'
+// });
+//
+// post.set('value', 'some new value...');
+//
+// post.save().then(function (model) {
+//   var value = model.get('value');
+// });
+// ```
+//
   update(q, obj) {
     return new P((resolve, reject) => {
       let key = obj[q.primaryKey];
@@ -150,6 +209,18 @@ export default class Redis extends Adapter {
     });
   }
 
+// ### Deleting
+//
+// ```js
+// var post = new Post({
+//   key: 'myUniqueKey'
+// });
+//
+// post.delete().then(function () {
+//   // delete successful
+// });
+// ```
+//
   delete(q) {
     return new P((resolve, reject) => {
       let key = this.getValueFromConditions(q, q.primaryKey);

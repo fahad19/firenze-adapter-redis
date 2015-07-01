@@ -12,11 +12,18 @@ $ npm install --save firenze-adapter-redis
 $ bower install --save firenze-adapter-redis
 ```
 
+The adapter currently supports only setting/getting/deleting a particular key at this moment.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # Contents
 
   - [Usage](#usage)
+  - [Operations](#operations)
+    - [Creating](#creating)
+    - [Reading](#reading)
+    - [Updating](#updating)
+    - [Deleting](#deleting)
 - [Testing](#testing)
 - [License](#license)
 
@@ -35,7 +42,72 @@ var db = new Database({
 
   // optional config
   keyField: 'key',
-  valueField: 'value'
+  valueField: 'value',
+  port: 6479,
+  host: '127.0.0.1'
+  options: {} // passed to `redis.createClient(port, host, options)`
+});
+```
+
+## Operations
+
+Examples below assume you have an instance of a Post model already:
+
+```js
+var Post = db.createModelClass({
+  primaryKey: 'key',
+  displayField: 'value'
+});
+```
+
+### Creating
+
+```js
+var post = new Post({
+  key: 'myUniqueKey',
+  value: 'some value here...'
+});
+
+post.save().then(function (model) {
+  var value = model.get('value'); // some value here...
+});
+```
+
+### Reading
+
+```js
+var post = new Post({
+  key: 'myUniqueKey'
+});
+
+post.fetch().then(function (model) {
+  var value = model.get('value');
+});
+```
+
+### Updating
+
+```js
+var post = new Post({
+  key: 'myUniqueKey'
+});
+
+post.set('value', 'some new value...');
+
+post.save().then(function (model) {
+  var value = model.get('value');
+});
+```
+
+### Deleting
+
+```js
+var post = new Post({
+  key: 'myUniqueKey'
+});
+
+post.delete().then(function () {
+  // delete successful
 });
 ```
 
