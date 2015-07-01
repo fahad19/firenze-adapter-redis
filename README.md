@@ -4,7 +4,7 @@
 
 Redis database adapter for [firenze.js](https://github.com/fahad19/firenze)
 
-Install it with [npm](https://npmjs.com):
+Install it with [npm](https://npmjs.com/):
 
 ```
 $ npm install --save firenze-adapter-redis
