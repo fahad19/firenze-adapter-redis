@@ -21,7 +21,7 @@ let Adapter = f.Adapter;
 //   // optional config
 //   keyField: 'key',
 //   valueField: 'value',
-//   port: 6479,
+//   port: 6379,
 //   host: '127.0.0.1'
 //   options: {} // passed to `redis.createClient(port, host, options)`
 // });
@@ -39,9 +39,10 @@ export default class Redis extends Adapter {
     }, options);
 
     this.client = redis.createClient(
-      options.port,
-      options.host,
-      options.options);
+      this.options.port,
+      this.options.host,
+      this.options.options
+    );
   }
 
   getConnection() {

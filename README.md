@@ -22,8 +22,8 @@ The adapter currently supports only setting/getting/deleting a particular key at
     - [Reading](#reading)
     - [Updating](#updating)
     - [Deleting](#deleting)
-- [Testing](#testing)
-- [License](#license)
+  - [Testing](#testing)
+  - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -41,7 +41,7 @@ var db = new Database({
   // optional config
   keyField: 'key',
   valueField: 'value',
-  port: 6479,
+  port: 6379,
   host: '127.0.0.1'
   options: {} // passed to `redis.createClient(port, host, options)`
 });
